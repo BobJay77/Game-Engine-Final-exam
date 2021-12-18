@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerInfo : MonoBehaviour
 {
+    public GameObject bullet;
     public Rigidbody2D rigidbody2D;
     private float horizontal;
     private float vertical;
     [SerializeField] private float speed = 8f;
+    private int dy = 0, dx=0;
     public float health = 3;
 
     // Update is called once per frame
@@ -20,12 +22,14 @@ public class PlayerInfo : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             horizontal = 1;
+            dx = -2;
             transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, new Vector3(0, 0, -90), 1);
         }
        
        else if (Input.GetKey(KeyCode.A))
         {
             horizontal = -1;
+            dx = 2;
             transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, new Vector3(0, 0, 90), 1);
         }
 
@@ -33,12 +37,14 @@ public class PlayerInfo : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             vertical = 1;
+            dy = 2;
             transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, new Vector3(0, 0, 0), 1);
         }
       
         else if (Input.GetKey(KeyCode.S))
         {
             vertical = -1;
+            dy = -2;
             transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, new Vector3(0, 0, 180), 1);
         }
        
@@ -47,7 +53,10 @@ public class PlayerInfo : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
-            //shoot
+           GameObject temp = Instantiate(bullet);
+            temp.transform.position = transform.position;
+
+            temp.GetComponent<Rigidbody2D>().velocity = new Vector2(dx * 10, dy * 10);
         }
 
     }

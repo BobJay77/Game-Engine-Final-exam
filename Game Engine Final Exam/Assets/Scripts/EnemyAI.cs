@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    public GameObject bullet;
+    private GameObject basicpool;
     Rigidbody2D rigidbody2D;
     float horizontal, vertical;
     bool isMoving = false;
@@ -45,10 +47,16 @@ public class EnemyAI : MonoBehaviour
     {
         if(collision.tag == "PlayerBullet")
         {
-            Destroy(gameObject);
+            FindObjectOfType<Score>().score++;
+            basicpool.GetComponent<BasicPool>().AddToPool(gameObject);
         }
 
         RandomDirection();
+    }
+
+    public void SetPool(GameObject pool)
+    {
+        basicpool = pool;
     }
 
     void Update()
